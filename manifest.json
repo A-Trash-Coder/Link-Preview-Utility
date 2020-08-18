@@ -1,0 +1,8 @@
+{
+    "name": "Powercord Preview Utility",
+    "version": "1.0.0",
+    "description": "Displays if you have the Embed Links permission for users with custom media uploaders.",
+    "author": "A Trash Coder#0214",
+    "license": "MIT",
+    "permissions": ["keypresses"]
+  }
