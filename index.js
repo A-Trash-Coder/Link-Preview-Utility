@@ -6,9 +6,9 @@ const dispatcher = getModule(['dispatch'], false)
 module.exports = class EmbedLinksUtility extends Plugin {
   async startPlugin () {
     await this.doImports();
-    powercord.api.settings.registerSettings('Powercord Preview Utility', {
+    powercord.api.settings.registerSettings('Link Preview Utility', {
       category: this.entityID,
-      label: 'Powercord Preview Utility',
+      label: 'Link Preview Utility',
       render: Settings
     });
     
@@ -23,7 +23,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
 
   pluginWillUnload () {
     if (this.switchChannel) dispatcher.unsubscribe('CHANNEL_SELECT', this.switchChannel);
-    powercord.api.settings.unregisterSettings('Powercord Preview Utility');
+    powercord.api.settings.unregisterSettings('Link Preview Utility');
   };
 
   async import (filter, functionName = filter) {
