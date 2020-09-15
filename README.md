@@ -10,21 +10,21 @@ Powercord Link Preview Utility automagically detects if you have the `Embed Link
 
 ###### With text
 
-![channel topic displays preview image text](https://i.adiscorduser.com/WQoZQCR.png)
+![channel topic displays preview image text](https://i.adiscorduser.com/kZZiUsS.png)
 
 ###### With an icon
 
-![channel topic displays preview image icon](https://i.adiscorduser.com/kZZiUsS.png)
+![channel topic displays preview image icon](https://i.adiscorduser.com/WQoZQCR.png)
 
 **Will not display previews**
 
 ###### With text
 
-![channel topic doesn't display preview image text](https://i.adiscorduser.com/qIVtRrL.png)
+![channel topic displays preview image text](https://i.adiscorduser.com/aqOYfKT.png)
 
 ###### With an icon
 
-![channel topic displays preview image icon](https://i.adiscorduser.com/aqOYfKT.png)
+![channel topic doesn't display preview image icon](https://i.adiscorduser.com/qIVtRrL.png)
 
 ### Configuration
 
