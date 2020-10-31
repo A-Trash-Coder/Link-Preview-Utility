@@ -1,8 +1,8 @@
 const { Plugin } = require('powercord/entities');
 const { React, getModule, getModuleByDisplayName, constants: { Permissions } } = require('powercord/webpack');
-const Settings = require('./Settings.jsx');
+const Settings = require('./components/Settings.jsx');
 const { inject, uninject } = require('powercord/injector');
-const EmbedLinks = require('./EmbedLinks.jsx')
+const EmbedLinks = require('./components/EmbedLinks.jsx')
 const EmbedLinksIcon = require('./components/EmbedLinksIcon.jsx')
 
 module.exports = class EmbedLinksUtility extends Plugin {
