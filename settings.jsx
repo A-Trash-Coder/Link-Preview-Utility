@@ -4,6 +4,14 @@ const { TextInput, SwitchItem, Category } = require('powercord/components/settin
 module.exports = ({ getSetting, updateSetting, toggleSetting }) => (
   <div>
     <SwitchItem
+      note='Whether to have the old or new styling.'
+      value={getSetting('oldStyling', false)}
+      onChange={() => toggleSetting('oldStyling')}
+    >
+      Old Styling
+    </SwitchItem>
+
+    <SwitchItem
       note='Whether to have an icon display instead of text.'
       value={getSetting('showIcon', false)}
       onChange={() => toggleSetting('showIcon')}

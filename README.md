@@ -8,7 +8,7 @@ Powercord Link Preview Utility automagically detects if you have the `Embed Link
 
 ### New Styling
 
-The new styling in V 1.1.1 is from [here](https://canary.discord.com/channels/538759280057122817/755005803303403570/755282035538526308) (This is in the powercord guild). The creator of this snippet is `creatable#0123`. Big thanks to them!
+The new styling optionally available in V 1.1.1 is from [here](https://canary.discord.com/channels/538759280057122817/755005803303403570/755282035538526308) (This is in the powercord guild). The creator of this snippet is `creatable#0123`. Big thanks to them!
 
 **Will display previews**
 

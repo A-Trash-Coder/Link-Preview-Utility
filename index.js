@@ -2,6 +2,8 @@ const { Plugin } = require('powercord/entities');
 const { getModule, constants: { Permissions } } = require('powercord/webpack');
 const Settings = require('./Settings.jsx');
 const dispatcher = getModule(['dispatch'], false)
+const getChannelPermissions = getModule(['getChannelPermissions'], false)
+const getChannel = getModule(['getChannel'], false)
 
 module.exports = class EmbedLinksUtility extends Plugin {
   async startPlugin() {
@@ -43,7 +45,6 @@ module.exports = class EmbedLinksUtility extends Plugin {
 
   hasPermission(channel, permission) {
     const permissions = this.getChannelPermissions(channel.id);
-    
     return permissions && (permissions & permission) !== 0;
   };
 
@@ -101,11 +102,15 @@ module.exports = class EmbedLinksUtility extends Plugin {
       var item = document.createElement("p");
       item.id = "EmbedLinks";
       item.textContent = text;
-      item.style.color = "white"
-      item.style.backgroundColor = "#" + color;
-      item.style.borderRadius = "20px"
-      item.style.padding = "0px 5px 0px 5px"
-      item.style.fontSize = "15px"
+      if (this.settings.get('oldStyling')) {
+        item.style.color = "#" + color;
+      } else {
+        item.style.color = "white";
+        item.style.backgroundColor = "#" + color;
+        item.style.borderRadius = "20px";
+        item.style.padding = "0px 5px 0px 5px";
+        item.style.fontSize = "15px";
+      }
     };
     header.insertBefore(item, header.childNodes[0]);
   };
