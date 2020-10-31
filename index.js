@@ -2,8 +2,6 @@ const { Plugin } = require('powercord/entities');
 const { getModule, constants: { Permissions } } = require('powercord/webpack');
 const Settings = require('./Settings.jsx');
 const dispatcher = getModule(['dispatch'], false)
-const getChannelPermissions = getModule(['getChannelPermissions'], false)
-const getChannel = getModule(['getChannel'], false)
 
 module.exports = class EmbedLinksUtility extends Plugin {
   async startPlugin() {
