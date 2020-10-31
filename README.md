@@ -6,11 +6,15 @@ Powercord Link Preview Utility allows you to know if your image or video is goin
 
 Powercord Link Preview Utility automagically detects if you have the `Embed Links` permission in a channel and lets you know if your images will display or not. To let you know if your links will preview, the Utility uses the channel topic to indicate if you have the permission. If you cannot send messages in the channel, the indicator will not display.
 
+### New Styling
+
+The new styling in V 1.1.1 is from [here](https://canary.discord.com/channels/538759280057122817/755005803303403570/755282035538526308) (This is in the powercord guild). The creator of this snippet is `creatable#0123`. Big thanks to them!
+
 **Will display previews**
 
 ###### With text
 
-![channel topic displays preview image text](https://i.adiscorduser.com/kZZiUsS.png)
+![channel topic displays preview image text](https://i.adiscorduser.com/63EA3Ll.png)
 
 ###### With an icon
 
@@ -20,7 +24,7 @@ Powercord Link Preview Utility automagically detects if you have the `Embed Link
 
 ###### With text
 
-![channel topic displays preview image text](https://i.adiscorduser.com/aqOYfKT.png)
+![channel topic displays preview image text](https://i.adiscorduser.com/1Wyt8JX.png)
 
 ###### With an icon
 
