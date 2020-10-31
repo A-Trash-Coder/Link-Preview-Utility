@@ -1,38 +1,33 @@
 const { Plugin } = require('powercord/entities');
-const { getModule, constants: { Permissions } } = require('powercord/webpack');
+const { React, getModule, getModuleByDisplayName, constants: { Permissions } } = require('powercord/webpack');
 const Settings = require('./Settings.jsx');
-const dispatcher = getModule(['dispatch'], false)
+const { inject, uninject } = require('powercord/injector');
+const EmbedLinks = require('./EmbedLinks.jsx')
+const EmbedLinksIcon = require('./components/EmbedLinksIcon.jsx')
 
 module.exports = class EmbedLinksUtility extends Plugin {
   async startPlugin() {
-    await this.doImports();
-    
     powercord.api.settings.registerSettings('Link Preview Utility', {
       category: this.entityID,
       label: 'Link Preview Utility',
       render: Settings
     });
 
-    dispatcher.subscribe('CHANNEL_SELECT', this.switchChannel = data => {
-      if (this.lastChannelId != data.channelId) {
-        setTimeout(() => {
-          this.updateDiv(data), 200
-        });
-      };
-    });
+    this.loadStylesheet('style.css');
+
+    await this.doImports();
+    await this.updateDiv()
   };
 
   pluginWillUnload() {
-    if (this.switchChannel) dispatcher.unsubscribe('CHANNEL_SELECT', this.switchChannel);
-
     powercord.api.settings.unregisterSettings('Link Preview Utility');
+    uninject('LinkEmbedComponent')
   };
 
   async import(filter, functionName = filter) {
     if (typeof filter === 'string') {
       filter = [filter];
     };
-
     this[functionName] = (await getModule(filter))[functionName];
   };
 
@@ -46,70 +41,70 @@ module.exports = class EmbedLinksUtility extends Plugin {
     return permissions && (permissions & permission) !== 0;
   };
 
-  updateDiv(data) {
-    var channel = this.getChannel(data.channelId)
-    var hasPerm = this.hasPermission(channel, Permissions.EMBED_LINKS)
-    var nonPermsShow = this.settings.get('nonPermsShow', true);
-    var hasPermsShow = this.settings.get('hasPermsShow', true);
-
-    if (!this.hasPermission(channel, Permissions.SEND_MESSAGES)) {
-      return;
-    }
-
-    if (channel.type == 1 || channel.type == 3) {
-      return;
-    }
-
-    if (hasPerm) {
-      if (hasPermsShow) {
-        if (this.settings.get('showIcon')) {
-          var src = this.settings.get('hasPermsImage', 'https://img.icons8.com/flat_round/64/000000/checkmark.png');
-        } else {
-          var color = this.settings.get('hasPermsColor', '43b581');
-          var text = this.settings.get('hasPermsText', 'EMBED LINKS');
-        };
-      } else {
-        return;
+  async updateDiv() {
+    const HeaderBarContainer = await getModuleByDisplayName('HeaderBarContainer');
+    inject('LinkEmbedComponent', HeaderBarContainer.prototype, 'renderLoggedIn', (args, res) => {
+      var channel = this.getChannel(res.props.children[1].key)
+      if (channel === null) {
+        return res;
       };
-    } else {
-      if (nonPermsShow) {
-        if (this.settings.get('showIcon')) {
-          var src = this.settings.get('nonPermsImage', 'https://img.icons8.com/flat_round/64/000000/no-entry--v1.png');
-        } else {
-          var color = this.settings.get('nonPermsColor', 'f04747');
-          var text = this.settings.get('nonPermsText', 'NO EMBED LINKS');
-        };
-      } else {
-        return;
-      };
-    };
+      var hasPerm = this.hasPermission(channel, Permissions.EMBED_LINKS)
+      var nonPermsShow = this.settings.get('nonPermsShow', true);
+      var hasPermsShow = this.settings.get('hasPermsShow', true);
 
-    var embedLinks = document.getElementById("EmbedLinks");
-    if (embedLinks != null) {
-      return;
-    };
-
-    var header = document.getElementsByClassName('toolbar-1t6TWx')[0];
-    if (this.settings.get('showIcon')) {
-      var item = document.createElement('img');
-      item.setAttribute('src', src);
-      item.id = "EmbedLinks";
-      item.height = 24;
-      item.width = 24;
-    } else {
-      var item = document.createElement("p");
-      item.id = "EmbedLinks";
-      item.textContent = text;
-      if (this.settings.get('oldStyling')) {
-        item.style.color = "#" + color;
-      } else {
-        item.style.color = "white";
-        item.style.backgroundColor = "#" + color;
-        item.style.borderRadius = "20px";
-        item.style.padding = "0px 5px 0px 5px";
-        item.style.fontSize = "15px";
+      if (!this.hasPermission(channel, Permissions.SEND_MESSAGES)) {
+        return res;
       }
-    };
-    header.insertBefore(item, header.childNodes[0]);
+
+      if (channel.type == 1 || channel.type == 3) {
+        return res;
+      }
+
+      if (hasPerm) {
+        if (hasPermsShow) {
+          if (this.settings.get('showIcon')) {
+            var src = this.settings.get('hasPermsImage', 'https://img.icons8.com/flat_round/64/000000/checkmark.png');
+          } else {
+            var color = this.settings.get('hasPermsColor', '43b581');
+            var text = this.settings.get('hasPermsText', 'EMBED LINKS');
+          };
+        } else {
+          return res;
+        };
+      } else {
+        if (nonPermsShow) {
+          if (this.settings.get('showIcon')) {
+            var src = this.settings.get('nonPermsImage', 'https://img.icons8.com/flat_round/64/000000/no-entry--v1.png');
+          } else {
+            var color = this.settings.get('nonPermsColor', 'f04747');
+            var text = this.settings.get('nonPermsText', 'NO EMBED LINKS');
+          };
+        } else {
+          return res;
+        };
+      };
+
+      if (this.settings.get('showIcon')) {
+        if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
+          const element = React.createElement(HeaderBarContainer.Icon, {
+            icon: () => React.createElement(EmbedLinksIcon, { src: src })
+          })
+          res.props.toolbar.props.children.unshift(element);
+        }
+      } else {
+        if (this.settings.get('oldStyling')) {
+          color = "#" + color;
+          var backgroundColor = "";
+        } else {
+          var backgroundColor = "#" + color;
+          color = "#FFFFFF";
+        }
+        if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
+          const element = React.createElement(EmbedLinks, { text: text, color: color, backgroundColor: backgroundColor });
+          res.props.toolbar.props.children.unshift(element);
+        }
+      };
+      return res;
+    });
   };
 };
