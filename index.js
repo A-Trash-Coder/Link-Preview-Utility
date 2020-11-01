@@ -106,7 +106,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
           color = "#FFFFFF";
         }
         if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
-          const embedLinks = React.createElement(EmbedLinks, { text: text, color: color, backgroundColor: backgroundColor, onClick: () => {contextMenu.openContextMenu(e, () => React.createElement(ContextMenuComp))} })
+          const embedLinks = React.createElement(EmbedLinks, { text: text, color: color, backgroundColor: backgroundColor, onContextMenu: e => contextMenu.openContextMenu(e, () => React.createElement(ContextMenuComp)) })
           const element = React.createElement(Tooltip, { text: tooltipText, position: 'bottom' }, embedLinks);
           res.props.toolbar.props.children.unshift(element);
         }
