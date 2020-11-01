@@ -1,10 +1,11 @@
 const { Plugin } = require('powercord/entities');
-const { React, getModule, getModuleByDisplayName, constants: { Permissions } } = require('powercord/webpack');
+const { React, getModule, getModuleByDisplayName, contextMenu, constants: { Permissions } } = require('powercord/webpack');
 const Settings = require('./components/Settings.jsx');
 const { Tooltip } = require('powercord/components');
 const { inject, uninject } = require('powercord/injector');
 const EmbedLinks = require('./components/EmbedLinks.jsx')
 const EmbedLinksIcon = require('./components/EmbedLinksIcon.jsx')
+const ContextMenuComp = require('./components/ContextMenu');
 
 module.exports = class EmbedLinksUtility extends Plugin {
   async startPlugin() {
@@ -92,8 +93,8 @@ module.exports = class EmbedLinksUtility extends Plugin {
       }
       if (this.settings.get('showIcon')) {
         if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
-          const element = React.createElement(Tooltip, { text: tooltipText, position: 'bottom'},
-          React.createElement(HeaderBarContainer.Icon, { icon: () => React.createElement(EmbedLinksIcon, { src: src }) }));
+          const element = React.createElement(Tooltip, { text: tooltipText, position: 'bottom' },
+            React.createElement(HeaderBarContainer.Icon, { icon: () => React.createElement(EmbedLinksIcon, { src: src }) }));
           res.props.toolbar.props.children.unshift(element);
         }
       } else {
@@ -105,8 +106,8 @@ module.exports = class EmbedLinksUtility extends Plugin {
           color = "#FFFFFF";
         }
         if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
-          const element = React.createElement(Tooltip, { text: tooltipText, position: 'bottom' }, 
-          React.createElement(EmbedLinks, { text: text, color: color, backgroundColor: backgroundColor }));
+          const embedLinks = React.createElement(EmbedLinks, { text: text, color: color, backgroundColor: backgroundColor, onContextMenu: e => contextMenu.openContextMenu(e, () => React.createElement(ContextMenuComp)) })
+          const element = React.createElement(Tooltip, { text: tooltipText, position: 'bottom' }, embedLinks);
           res.props.toolbar.props.children.unshift(element);
         }
       };
