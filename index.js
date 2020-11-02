@@ -87,9 +87,9 @@ module.exports = class EmbedLinksUtility extends Plugin {
       };
 
       if (hasPerm) {
-        var tooltipText = 'You have the Embed Links Permission'
+        var tooltipText = 'You have the Embed Links permission.'
       } else {
-        var tooltipText = 'You do not have the Embed Links Permission'
+        var tooltipText = 'You do not have the Embed Links permission.'
       }
       if (this.settings.get('showIcon')) {
         if (res.props.toolbar && res.props.toolbar.props.children && res.props.toolbar.props.children[0][0]) {
