@@ -55,7 +55,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
       var nonPermsShow = this.settings.get('nonPermsShow', true);
       var hasPermsShow = this.settings.get('hasPermsShow', true);
 
-      if (!this.hasPermission(channel, Permissions.SEND_MESSAGES)) {
+      if (!this.hasPermission(channel, Permissions.SEND_MESSAGES) == 'On') {
         return res;
       }
 
@@ -63,7 +63,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
         return res;
       }
 
-      if (hasPerm) {
+      if (hasPerm == 'On') {
         if (hasPermsShow) {
           if (this.settings.get('showIcon')) {
             var src = this.settings.get('hasPermsImage', 'https://img.icons8.com/flat_round/64/000000/checkmark.png');
