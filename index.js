@@ -35,18 +35,17 @@ module.exports = class EmbedLinksUtility extends Plugin {
 
   async doImports() {
     await this.import('getChannelPermissions');
-    await this.import('getChannel');
   };
 
   hasPermission(channel, permission) {
-    const permissions = this.getChannelPermissions(channel.id);
+    const permissions = this.getChannelPermissions(channel);
     return permissions && (permissions & permission) !== 0;
   };
 
   async updateDiv() {
     const HeaderBarContainer = await getModuleByDisplayName('HeaderBarContainer');
     inject('LinkEmbedComponent', HeaderBarContainer.prototype, 'renderLoggedIn', (args, res) => {
-      var channel = this.getChannel(res.props.children[1].key)
+      var channel = res.props.children[1].props.channel
       if (channel === null) {
         return res;
       };
@@ -55,7 +54,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
       var nonPermsShow = this.settings.get('nonPermsShow', true);
       var hasPermsShow = this.settings.get('hasPermsShow', true);
 
-      if (!this.hasPermission(channel, Permissions.SEND_MESSAGES) == 'On') {
+      if (!this.hasPermission(channel.id, Permissions.SEND_MESSAGES) == 'On') {
         return res;
       }
 
