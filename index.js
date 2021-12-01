@@ -34,7 +34,8 @@ module.exports = class EmbedLinksUtility extends Plugin {
   };
 
   async doImports() {
-    await this.import('getChannelPermissions');
+    await this.import('getChannelPermissions', 'can');
+    await this.import('API_HOST', 'Permissions');
   };
 
   hasPermission(channel, permission) {
@@ -50,11 +51,11 @@ module.exports = class EmbedLinksUtility extends Plugin {
         return res;
       };
 
-      var hasPerm = this.hasPermission(channel, Permissions.EMBED_LINKS)
+      var hasPerm = this.can(this.Permissions.EMBED_LINKS ,channel)
       var nonPermsShow = this.settings.get('nonPermsShow', true);
       var hasPermsShow = this.settings.get('hasPermsShow', true);
 
-      if (!this.hasPermission(channel.id, Permissions.SEND_MESSAGES) == 'On') {
+      if (!this.can(this.Permissions.SEND_MESSAGES ,channel)) {
         return res;
       }
 
@@ -62,7 +63,7 @@ module.exports = class EmbedLinksUtility extends Plugin {
         return res;
       }
 
-      if (hasPerm == 'On') {
+      if (hasPerm) {
         if (hasPermsShow) {
           if (this.settings.get('showIcon')) {
             var src = this.settings.get('hasPermsImage', 'https://img.icons8.com/flat_round/64/000000/checkmark.png');
